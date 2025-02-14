@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask 업비트 자동 거래 봇</title>
+</head>
+<body>
+    <h1>📈 업비트 자동 거래 봇</h1>
+    <h2>현재 BTC 가격: <span id="btc_price">Loading...</span> 원</h2>
+
+    <button onclick="buy()">매수</button>
+    <button onclick="sell()">매도</button>
+
+    <h3>거래 내역</h3>
+    <iframe src="/chart" width="600" height="400"></iframe>
+
+    <script>
+        function updatePrice() {
+            fetch("/price")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("btc_price").innerText = data.btc_price;
+            });
+        }
+
+        function buy() { fetch("/buy"); }
+        function sell() { fetch("/sell"); }
+
+        setInterval(updatePrice, 5000);
+    </script>
+</body>
+</html>
